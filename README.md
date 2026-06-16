@@ -50,6 +50,14 @@ figma-plugin-yc-20260616/manifest.json
 
 设计师不需要自己写 JSON，也不需要复制粘贴代码。推荐让 AI Agent 直接生成页面 JSON，并发送给插件渲染。
 
+本仓库已经内置 Agent 工作流说明：
+
+- `AGENTS.md`：通用 AI Agent 工作流
+- `.github/copilot-instructions.md`：VS Code / GitHub Copilot 使用
+- `.cursor/rules/pdcn-ux-helper.mdc`：Cursor Agent 使用
+
+团队设计师把这个 GitHub 仓库交给 VS Code Agent、Cursor Agent 或团队内部 Agent 后，Agent 会默认知道应该先引导设计师说出页面需求，再生成 JSON，并把 JSON 嵌入 PDCN UX Helper 插件。
+
 这里的 AI Agent 指的是**能连接本地项目或插件工作流的 Agent 环境**，例如：
 
 - VS Code 里的 GitHub Copilot / Agent
@@ -66,8 +74,17 @@ figma-plugin-yc-20260616/manifest.json
 3. 运行插件 **PDCN UX Helper**。
 4. 停留在 **设计稿生成** tab。
 5. 打开可以连接本地项目或插件工作流的 AI Agent，例如 VS Code Agent、Cursor Agent，或团队配置好的 Agent。
+6. 让 Agent 读取本仓库：`https://github.com/PDCN-YingfeiChen/PDCN_UX_AI_LAB`。
 
-只要 Figma 文件和插件保持打开，AI Agent 就可以把页面 JSON 发送给插件，由插件在当前 Figma 文件中生成设计稿。
+只要 Figma 文件和插件保持打开，AI Agent 就可以把页面 JSON 写入仓库并嵌入插件。设计师回到插件点击 **渲染画布**，即可在当前 Figma 文件中生成设计稿。
+
+Agent 会使用这个命令把生成好的 JSON 嵌入插件：
+
+```bash
+npm run agent:embed
+```
+
+设计师不需要运行这个命令；这是给 AI Agent 自动执行的。
 
 ### 设计师怎么提需求
 
@@ -102,6 +119,15 @@ figma-plugin-yc-20260616/manifest.json
 ```
 
 AI Agent 会重新生成或调整 JSON，再发送给插件渲染新的画板。
+
+### 设计师最终只需要做什么
+
+1. 和 AI Agent 沟通页面需求。
+2. 等 Agent 提示“已嵌入插件”。
+3. 回到 Figma 插件 **PDCN UX Helper**。
+4. 点击 **设计稿生成 -> 渲染画布**。
+
+除此之外，不需要写 JSON、不需要复制粘贴、不需要运行命令。
 
 ### 如果没有 VS Code
 

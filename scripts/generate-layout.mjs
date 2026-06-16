@@ -329,6 +329,7 @@ function libraryDemoPreset() {
 function usedCarDetailPreset() {
   const W = 375;
   const fullWidth = W;
+  const statusHeight = 44;
 
   return {
     name: "Porsche 易手车 - 详情页",
@@ -336,262 +337,330 @@ function usedCarDetailPreset() {
       width: W,
       height: 812,
       layoutMode: "VERTICAL",
-      primaryAxisSizingMode: "FIXED",
+      primaryAxisSizingMode: "AUTO",
       counterAxisSizingMode: "FIXED",
       primaryAxisAlignItems: "MIN",
       counterAxisAlignItems: "MIN",
       itemSpacing: 0,
+      minHeight: 812,
       fills: [{ type: "SOLID", color: "#FFFFFF", opacity: 1 }],
-      clipsContent: true
+      clipsContent: false
     },
     nodes: [
       // 1. 状态栏 + 顶部导航
-      { type: "instance", use: "PorscheCNV3/Status bar", name: "Status bar", width: fullWidth, height: 44 },
+      { type: "instance", use: "PorscheCNV3/Status bar", name: "Status bar", width: fullWidth, height: statusHeight },
       {
         type: "instance",
         use: "PorscheCNV3/Header",
-        name: "Header",
+        name: "顶部导航",
         width: fullWidth,
         height: 56,
-        overrides: { Title: "易手车详情", title: "易手车详情" }
+        overrides: {
+          $texts: ["易手车详情"],
+          Title: "易手车详情",
+          title: "易手车详情",
+          "标题不超过八个字符": "易手车详情",
+          "Header / Center section": "易手车详情"
+        }
       },
 
-      // 2. 车辆大图区域
       {
         type: "frame",
-        name: "车辆大图",
+        name: "内容滚动区",
         width: fullWidth,
-        height: 220,
-        layoutMode: "VERTICAL",
-        primaryAxisSizingMode: "FIXED",
-        counterAxisSizingMode: "FIXED",
-        primaryAxisAlignItems: "MAX",
-        counterAxisAlignItems: "MIN",
-        paddingTop: 136,
-        paddingBottom: 16,
-        paddingLeft: 16,
-        paddingRight: 16,
-        itemSpacing: 8,
-        clipsContent: true,
-        fills: [{ type: "SOLID", color: "#151515", opacity: 1 }],
-        nodes: [
-          {
-            type: "text",
-            name: "车辆图说明",
-            characters: "911 Carrera S · 认证易手车",
-            fontFamily: "Roboto",
-            fontStyle: "Medium",
-            fontSize: 13,
-            fills: [{ type: "SOLID", color: "#FFFFFF", opacity: 1 }],
-            maxWidth: W - 32
-          },
-          {
-            type: "text",
-            name: "车辆图副标题",
-            characters: "GT 银金属漆 · 上海浦东保时捷中心",
-            fontFamily: "Roboto",
-            fontStyle: "Regular",
-            fontSize: 11,
-            fills: [{ type: "SOLID", color: "#D1D5DB", opacity: 1 }],
-            maxWidth: W - 32
-          }
-        ]
-      },
-
-      // 3. 车型名称 + 价格 + 4. 认证/质保标签
-      {
-        type: "frame",
-        name: "标题区",
-        width: W,
+        height: 1,
         layoutMode: "VERTICAL",
         primaryAxisSizingMode: "AUTO",
         counterAxisSizingMode: "FIXED",
         primaryAxisAlignItems: "MIN",
         counterAxisAlignItems: "MIN",
-        itemSpacing: 8,
-        paddingTop: 16,
-        paddingBottom: 16,
-        paddingLeft: 16,
-        paddingRight: 16,
+        clipsContent: false,
         fills: [{ type: "SOLID", color: "#FFFFFF", opacity: 1 }],
         nodes: [
           {
-            type: "text",
-            name: "车型名称",
-            characters: "Porsche 911 Carrera S",
-            fontFamily: "Roboto",
-            fontStyle: "Bold",
-            fontSize: 22,
-            fills: [{ type: "SOLID", color: "#0A0A0A", opacity: 1 }],
-            maxWidth: W - 32
-          },
-          {
             type: "frame",
-            name: "标签行",
-            width: W - 32,
-            layoutMode: "HORIZONTAL",
-            primaryAxisSizingMode: "AUTO",
-            counterAxisSizingMode: "AUTO",
-            primaryAxisAlignItems: "MIN",
-            counterAxisAlignItems: "CENTER",
-            itemSpacing: 8,
-            fills: [],
+            name: "车辆大图",
+            width: fullWidth,
+            height: 140,
+            layoutMode: "VERTICAL",
+            primaryAxisSizingMode: "FIXED",
+            counterAxisSizingMode: "FIXED",
+            primaryAxisAlignItems: "MAX",
+            counterAxisAlignItems: "MIN",
+            paddingTop: 76,
+            paddingBottom: 10,
+            paddingLeft: 16,
+            paddingRight: 16,
+            itemSpacing: 6,
+            clipsContent: true,
+            fills: [{ type: "SOLID", color: "#151515", opacity: 1 }],
             nodes: [
-              { type: "instance", use: "PorscheCNV3/Tag-VIP", name: "官方认证", width: 72, height: 24 },
               {
-                type: "instance",
-                use: "PorscheCNV3/Tag",
-                name: "质保标签",
-                width: 96,
-                height: 24,
-                overrides: { Label: "2年原厂质保", label: "2年原厂质保" }
+                type: "text",
+                name: "车辆图说明",
+                characters: "911 Carrera S · 认证易手车",
+                fontFamily: "Roboto",
+                fontStyle: "Medium",
+                fontSize: 13,
+                fills: [{ type: "SOLID", color: "#FFFFFF", opacity: 1 }],
+                maxWidth: W - 32
+              },
+              {
+                type: "text",
+                name: "车辆图副标题",
+                characters: "GT 银金属漆 · 上海浦东保时捷中心",
+                fontFamily: "Roboto",
+                fontStyle: "Regular",
+                fontSize: 11,
+                fills: [{ type: "SOLID", color: "#D1D5DB", opacity: 1 }],
+                maxWidth: W - 32
               }
             ]
           },
           {
-            type: "text",
-            name: "价格",
-            characters: "¥ 1,288,000",
-            fontFamily: "Roboto",
-            fontStyle: "Bold",
-            fontSize: 24,
-            fills: [{ type: "SOLID", color: "#C8102E", opacity: 1 }],
-            maxWidth: W - 32
-          }
-        ]
-      },
-
-      { type: "instance", use: "PorscheCNV3/Divider", name: "分割线1", width: fullWidth, height: 1 },
-
-      // 5. 关键参数 (里程/年份/排量)
-      {
-        type: "frame",
-        name: "关键参数",
-        width: W,
-        layoutMode: "HORIZONTAL",
-        primaryAxisSizingMode: "FIXED",
-        counterAxisSizingMode: "AUTO",
-        primaryAxisAlignItems: "SPACE_BETWEEN",
-        counterAxisAlignItems: "CENTER",
-        paddingTop: 16,
-        paddingBottom: 16,
-        paddingLeft: 16,
-        paddingRight: 16,
-        fills: [{ type: "SOLID", color: "#FFFFFF", opacity: 1 }],
-        nodes: [
-          paramItem("里程", "1.2 万公里"),
-          paramItem("年份", "2022 款"),
-          paramItem("排量", "3.0T")
-        ]
-      },
-
-      { type: "instance", use: "PorscheCNV3/Divider", name: "分割线2", width: fullWidth, height: 1 },
-
-      // 6. 车辆配置清单
-      {
-        type: "frame",
-        name: "配置标题",
-        width: W,
-        layoutMode: "VERTICAL",
-        primaryAxisSizingMode: "AUTO",
-        counterAxisSizingMode: "FIXED",
-        primaryAxisAlignItems: "MIN",
-        counterAxisAlignItems: "MIN",
-        paddingTop: 16,
-        paddingLeft: 16,
-        paddingRight: 16,
-        fills: [{ type: "SOLID", color: "#FFFFFF", opacity: 1 }],
-        nodes: [
-          {
-            type: "text",
-            name: "配置标题文字",
-            characters: "车辆配置",
-            fontFamily: "Roboto",
-            fontStyle: "Bold",
-            fontSize: 18,
-            fills: [{ type: "SOLID", color: "#0A0A0A", opacity: 1 }]
-          }
-        ]
-      },
-      { type: "instance", use: "PorscheCNV3/Text List", name: "配置项-外观", width: fullWidth, height: 56, overrides: { Title: "外观颜色", Content: "GT 银金属漆" } },
-      { type: "instance", use: "PorscheCNV3/Text List", name: "配置项-内饰", width: fullWidth, height: 56, overrides: { Title: "内饰", Content: "黑色真皮" } },
-      { type: "instance", use: "PorscheCNV3/Text List", name: "配置项-驱动", width: fullWidth, height: 56, overrides: { Title: "驱动方式", Content: "后轮驱动" } },
-      { type: "instance", use: "PorscheCNV3/Text List", name: "配置项-变速", width: fullWidth, height: 56, overrides: { Title: "变速箱", Content: "8速 PDK" } },
-
-      { type: "instance", use: "PorscheCNV3/Divider", name: "分割线3", width: fullWidth, height: 1 },
-
-      // 7. 经销商信息卡
-      {
-        type: "frame",
-        name: "经销商卡",
-        width: W,
-        layoutMode: "HORIZONTAL",
-        primaryAxisSizingMode: "FIXED",
-        counterAxisSizingMode: "AUTO",
-        primaryAxisAlignItems: "MIN",
-        counterAxisAlignItems: "CENTER",
-        itemSpacing: 12,
-        paddingTop: 16,
-        paddingBottom: 16,
-        paddingLeft: 16,
-        paddingRight: 16,
-        fills: [{ type: "SOLID", color: "#F7F7F7", opacity: 1 }],
-        nodes: [
-          { type: "instance", use: "PorscheCNV3/Crest", name: "经销商标识", width: 40, height: 48 },
-          {
             type: "frame",
-            name: "经销商文本",
-            width: W - 32 - 40 - 12,
+            name: "标题区",
+            width: W,
+            height: 1,
             layoutMode: "VERTICAL",
             primaryAxisSizingMode: "AUTO",
             counterAxisSizingMode: "FIXED",
             primaryAxisAlignItems: "MIN",
             counterAxisAlignItems: "MIN",
-            itemSpacing: 4,
-            fills: [],
+            itemSpacing: 7,
+            paddingTop: 12,
+            paddingBottom: 12,
+            paddingLeft: 16,
+            paddingRight: 16,
+            fills: [{ type: "SOLID", color: "#FFFFFF", opacity: 1 }],
             nodes: [
               {
                 type: "text",
-                name: "经销商名称",
-                characters: "保时捷中心 · 上海浦东",
+                name: "车型名称",
+                characters: "Porsche 911 Carrera S",
                 fontFamily: "Roboto",
-                fontStyle: "Medium",
-                fontSize: 15,
+                fontStyle: "Bold",
+                fontSize: 20,
                 fills: [{ type: "SOLID", color: "#0A0A0A", opacity: 1 }],
-                maxWidth: W - 84
+                maxWidth: W - 32
+              },
+              {
+                type: "frame",
+                name: "标签行",
+                width: W - 32,
+                layoutMode: "HORIZONTAL",
+                primaryAxisSizingMode: "FIXED",
+                counterAxisSizingMode: "AUTO",
+                primaryAxisAlignItems: "MIN",
+                counterAxisAlignItems: "CENTER",
+                itemSpacing: 8,
+                fills: [],
+                nodes: [
+                  { type: "instance", use: "PorscheCNV3/Tag-VIP", name: "官方认证", overrides: { $texts: ["官方认证"], Label: "官方认证", label: "官方认证", "标签": "官方认证" } },
+                  {
+                    type: "instance",
+                    use: "PorscheCNV3/Tag",
+                    name: "质保标签",
+                    overrides: { $texts: ["2年原厂质保"], Label: "2年原厂质保", label: "2年原厂质保", "标签": "2年原厂质保" }
+                  }
+                ]
               },
               {
                 type: "text",
-                name: "经销商地址",
-                characters: "上海市浦东新区世纪大道 100 号",
+                name: "价格",
+                characters: "¥ 1,288,000",
                 fontFamily: "Roboto",
-                fontStyle: "Regular",
-                fontSize: 13,
-                fills: [{ type: "SOLID", color: "#6B6B6B", opacity: 1 }],
-                maxWidth: W - 84
+                fontStyle: "Bold",
+                fontSize: 22,
+                fills: [{ type: "SOLID", color: "#C8102E", opacity: 1 }],
+                maxWidth: W - 32
               }
             ]
+          },
+          {
+            type: "frame",
+            name: "质保Banner",
+            width: W,
+            height: 1,
+            layoutMode: "HORIZONTAL",
+            primaryAxisSizingMode: "AUTO",
+            counterAxisSizingMode: "FIXED",
+            primaryAxisAlignItems: "MIN",
+            counterAxisAlignItems: "CENTER",
+            itemSpacing: 12,
+            paddingTop: 14,
+            paddingBottom: 14,
+            paddingLeft: 16,
+            paddingRight: 16,
+            fills: [{ type: "SOLID", color: "#F4F1EA", opacity: 1 }],
+            nodes: [
+              {
+                type: "frame",
+                name: "质保图标",
+                width: 32,
+                height: 32,
+                layoutMode: "VERTICAL",
+                primaryAxisSizingMode: "FIXED",
+                counterAxisSizingMode: "FIXED",
+                primaryAxisAlignItems: "CENTER",
+                counterAxisAlignItems: "CENTER",
+                cornerRadius: 16,
+                fills: [{ type: "SOLID", color: "#0A0A0A", opacity: 1 }],
+                nodes: [
+                  {
+                    type: "text",
+                    name: "质保图标文字",
+                    characters: "P",
+                    fontFamily: "Roboto",
+                    fontStyle: "Bold",
+                    fontSize: 15,
+                    fills: [{ type: "SOLID", color: "#FFFFFF", opacity: 1 }],
+                    textAlignHorizontal: "CENTER"
+                  }
+                ]
+              },
+              {
+                type: "frame",
+                name: "质保文案",
+                width: W - 32 - 32 - 12,
+                layoutMode: "VERTICAL",
+                primaryAxisSizingMode: "AUTO",
+                counterAxisSizingMode: "FIXED",
+                primaryAxisAlignItems: "MIN",
+                counterAxisAlignItems: "MIN",
+                itemSpacing: 4,
+                fills: [],
+                nodes: [
+                  {
+                    type: "text",
+                    name: "质保标题",
+                    characters: "Porsche Approved 官方认证质保",
+                    fontFamily: "Roboto",
+                    fontStyle: "Bold",
+                    fontSize: 13,
+                    fills: [{ type: "SOLID", color: "#0A0A0A", opacity: 1 }],
+                    maxWidth: W - 80
+                  },
+                  {
+                    type: "text",
+                    name: "质保说明",
+                    characters: "享 111 项检测与最长 2 年原厂延保服务",
+                    fontFamily: "Roboto",
+                    fontStyle: "Regular",
+                    fontSize: 11,
+                    fills: [{ type: "SOLID", color: "#5F5A50", opacity: 1 }],
+                    maxWidth: W - 80
+                  }
+                ]
+              }
+            ]
+          },
+          { type: "instance", use: "PorscheCNV3/Divider", name: "分割线1", width: fullWidth, height: 1 },
+          {
+            type: "frame",
+            name: "关键参数",
+            width: W,
+            height: 50,
+            layoutMode: "HORIZONTAL",
+            primaryAxisSizingMode: "FIXED",
+            counterAxisSizingMode: "FIXED",
+            primaryAxisAlignItems: "SPACE_BETWEEN",
+            counterAxisAlignItems: "CENTER",
+            paddingTop: 8,
+            paddingBottom: 8,
+            paddingLeft: 16,
+            paddingRight: 16,
+            fills: [{ type: "SOLID", color: "#FFFFFF", opacity: 1 }],
+            nodes: [
+              paramItem("里程", "1.2 万公里"),
+              paramItem("年份", "2022 款"),
+              paramItem("排量", "3.0T")
+            ]
+          },
+          { type: "instance", use: "PorscheCNV3/Divider", name: "分割线2", width: fullWidth, height: 1 },
+          {
+            type: "instance",
+            use: "PorscheCNV3/Text List",
+            name: "配置标题",
+            width: W,
+            height: 40,
+            overrides: { $texts: ["车辆配置", ""], Title: "车辆配置", title: "车辆配置", "列表名称": "车辆配置", Content: "", content: "", "内容": "" }
+          },
+          { type: "instance", use: "PorscheCNV3/Text List", name: "配置项-外观", width: fullWidth, height: 56, overrides: { $texts: ["外观颜色", "GT 银金属漆"], Title: "外观颜色", title: "外观颜色", "列表名称": "外观颜色", Content: "GT 银金属漆", content: "GT 银金属漆", "内容": "GT 银金属漆" } },
+          { type: "instance", use: "PorscheCNV3/Text List", name: "配置项-内饰", width: fullWidth, height: 56, overrides: { $texts: ["内饰", "黑色真皮"], Title: "内饰", title: "内饰", "列表名称": "内饰", Content: "黑色真皮", content: "黑色真皮", "内容": "黑色真皮" } },
+          { type: "instance", use: "PorscheCNV3/Text List", name: "配置项-驱动", width: fullWidth, height: 56, overrides: { $texts: ["驱动方式", "后轮驱动"], Title: "驱动方式", title: "驱动方式", "列表名称": "驱动方式", Content: "后轮驱动", content: "后轮驱动", "内容": "后轮驱动" } },
+          { type: "instance", use: "PorscheCNV3/Text List", name: "配置项-变速", width: fullWidth, height: 56, overrides: { $texts: ["变速箱", "8速 PDK"], Title: "变速箱", title: "变速箱", "列表名称": "变速箱", Content: "8速 PDK", content: "8速 PDK", "内容": "8速 PDK" } },
+          { type: "instance", use: "PorscheCNV3/Divider", name: "分割线3", width: fullWidth, height: 1 },
+          {
+            type: "frame",
+            name: "经销商卡",
+            width: W,
+            height: 64,
+            layoutMode: "HORIZONTAL",
+            primaryAxisSizingMode: "FIXED",
+            counterAxisSizingMode: "FIXED",
+            primaryAxisAlignItems: "MIN",
+            counterAxisAlignItems: "CENTER",
+            itemSpacing: 12,
+            paddingTop: 8,
+            paddingBottom: 8,
+            paddingLeft: 16,
+            paddingRight: 16,
+            fills: [{ type: "SOLID", color: "#F7F7F7", opacity: 1 }],
+            nodes: [
+              { type: "instance", use: "PorscheCNV3/Crest", name: "经销商标识", width: 40, height: 48 },
+              {
+                type: "frame",
+                name: "经销商文本",
+                width: W - 32 - 40 - 12,
+                layoutMode: "VERTICAL",
+                primaryAxisSizingMode: "AUTO",
+                counterAxisSizingMode: "FIXED",
+                primaryAxisAlignItems: "MIN",
+                counterAxisAlignItems: "MIN",
+                itemSpacing: 4,
+                fills: [],
+                nodes: [
+                  {
+                    type: "text",
+                    name: "经销商名称",
+                    characters: "保时捷中心 · 上海浦东",
+                    fontFamily: "Roboto",
+                    fontStyle: "Medium",
+                    fontSize: 15,
+                    fills: [{ type: "SOLID", color: "#0A0A0A", opacity: 1 }],
+                    maxWidth: W - 84
+                  },
+                  {
+                    type: "text",
+                    name: "经销商地址",
+                    characters: "上海市浦东新区世纪大道 100 号",
+                    fontFamily: "Roboto",
+                    fontStyle: "Regular",
+                    fontSize: 13,
+                    fills: [{ type: "SOLID", color: "#6B6B6B", opacity: 1 }],
+                    maxWidth: W - 84
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            type: "rectangle",
+            name: "内容底部留白",
+            width: W,
+            height: 12,
+            fills: [{ type: "SOLID", color: "#FFFFFF", opacity: 1 }]
           }
         ]
       },
-
-      // 占位留白，避免内容贴住底部操作栏
-      {
-        type: "rectangle",
-        name: "底部留白",
-        width: W,
-        height: 24,
-        fills: [{ type: "SOLID", color: "#FFFFFF", opacity: 1 }]
-      },
-
-      // 8. 底部操作栏 (咨询 + 预约/下单) + Home Indicator
       {
         type: "instance",
         use: "PorscheCNV3/Tool Bar",
         name: "底部操作栏",
         width: fullWidth,
         height: 64,
-        overrides: { Button: "预约看车", "Tool Bar / Button": "预约看车" }
+        overrides: { $texts: ["预约看车"], Button: "预约看车", button: "预约看车", "确认": "预约看车", "Tool Bar / Button": "预约看车" }
       },
       { type: "instance", use: "PorscheCNV3/Home Indicator", name: "Home Indicator", width: fullWidth, height: 34 }
     ]
@@ -629,6 +698,47 @@ function paramItem(label, value) {
         fontSize: 12,
         fills: [{ type: "SOLID", color: "#6B6B6B", opacity: 1 }],
         textAlignHorizontal: "CENTER"
+      }
+    ]
+  };
+}
+
+function configRow(label, value) {
+  return {
+    type: "frame",
+    name: `配置-${label}`,
+    width: 375,
+    height: 38,
+    layoutMode: "HORIZONTAL",
+    primaryAxisSizingMode: "FIXED",
+    counterAxisSizingMode: "FIXED",
+    primaryAxisAlignItems: "SPACE_BETWEEN",
+    counterAxisAlignItems: "CENTER",
+    paddingLeft: 16,
+    paddingRight: 16,
+    fills: [{ type: "SOLID", color: "#FFFFFF", opacity: 1 }],
+    stroke: { color: "#E5E7EB", weight: 1 },
+    nodes: [
+      {
+        type: "text",
+        name: `${label}-标题`,
+        characters: label,
+        fontFamily: "Roboto",
+        fontStyle: "Regular",
+        fontSize: 14,
+        fills: [{ type: "SOLID", color: "#6B7280", opacity: 1 }],
+        maxWidth: 130
+      },
+      {
+        type: "text",
+        name: `${label}-内容`,
+        characters: value,
+        fontFamily: "Roboto",
+        fontStyle: "Medium",
+        fontSize: 14,
+        fills: [{ type: "SOLID", color: "#111827", opacity: 1 }],
+        textAlignHorizontal: "RIGHT",
+        maxWidth: 190
       }
     ]
   };

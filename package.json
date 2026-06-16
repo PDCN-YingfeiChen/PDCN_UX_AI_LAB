@@ -8,6 +8,8 @@
     "draw": "node scripts/generate-layout.mjs --preset login",
     "draw:library": "node scripts/generate-layout.mjs --preset library-demo",
     "draw:usedcar": "node scripts/generate-layout.mjs --preset used-car-detail",
+    "agent:embed": "node scripts/embed-layout.mjs --input generated/agent-layout.json",
+    "agent:embed:file": "node scripts/embed-layout.mjs --input",
     "generate": "node scripts/generate-layout.mjs",
     "draw:login": "node scripts/generate-layout.mjs --preset login",
     "build:plugin": "node scripts/generate-layout.mjs --preset login",

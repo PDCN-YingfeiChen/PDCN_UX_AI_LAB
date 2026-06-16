@@ -1,0 +1,22 @@
+---
+description: PDCN UX Helper workflow for generating Figma designs through an AI Agent
+alwaysApply: true
+---
+
+# PDCN UX Helper Cursor Rule
+
+This repository contains the PDCN UX Helper Figma plugin.
+
+When a designer asks Cursor Agent to create or modify a design, follow the workflow in `AGENTS.md`.
+
+Required flow:
+
+1. Ask concise questions to clarify page type, device size, modules, component library, and CTA.
+2. Generate page JSON for the plugin.
+3. Write it to `generated/agent-layout.json`.
+4. Run `npm run agent:embed`.
+5. Run `node --check figma-plugin-yc-20260616/code.js`.
+6. Tell the designer to open **PDCN UX Helper** in Figma and click **设计稿生成 -> 渲染画布**.
+
+Do not ask designers to copy/paste JSON or run terminal commands.
+Do not push to GitHub unless explicitly requested.
