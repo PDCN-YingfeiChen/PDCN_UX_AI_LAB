@@ -48,6 +48,23 @@ figma.ui.onmessage = async (msg) => {
     return;
   }
 
+  if (msg.type === "render-json") {
+    try {
+      const payload =
+        typeof msg.payload === "string" ? JSON.parse(msg.payload) : msg.payload;
+      const root = await renderDocument(payload);
+      figma.currentPage.selection = [root];
+      figma.viewport.scrollAndZoomIntoView([root]);
+      figma.notify(`Rendered: ${root.name}`);
+      figma.ui.postMessage({ type: "render-ok", nodeId: root.id });
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      figma.notify(`Render failed: ${message}`, { error: true });
+      figma.ui.postMessage({ type: "render-error", message });
+    }
+    return;
+  }
+
   if (msg.type === "read-keys") {
     const selection = figma.currentPage.selection;
     if (!selection.length) {
