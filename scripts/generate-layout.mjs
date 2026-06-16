@@ -180,100 +180,172 @@ function buildPreset(name) {
 }
 
 function loginPreset() {
+  const W = 375;
   return {
-    name: "Login Page",
+    name: "保时捷 - 手机端登录页",
     frame: {
-      width: 1440,
-      height: 1024,
+      width: W,
+      height: 812,
       layoutMode: "VERTICAL",
       primaryAxisSizingMode: "FIXED",
       counterAxisSizingMode: "FIXED",
-      primaryAxisAlignItems: "CENTER",
-      counterAxisAlignItems: "CENTER",
-      fills: [{ type: "SOLID", color: "#ECFEFF", opacity: 1 }]
+      primaryAxisAlignItems: "MIN",
+      counterAxisAlignItems: "MIN",
+      itemSpacing: 0,
+      fills: [{ type: "SOLID", color: "#FFFFFF", opacity: 1 }],
+      clipsContent: true
     },
     nodes: [
+      // 1. 状态栏
+      { type: "instance", use: "PorscheCNV3/Status bar", name: "Status bar", width: W, height: 44 },
+
+      // 2. Logo 区域（居中）
       {
         type: "frame",
-        name: "Card",
-        width: 420,
-        height: 448,
+        name: "Logo区域",
+        width: W,
         layoutMode: "VERTICAL",
-        primaryAxisSizingMode: "FIXED",
+        primaryAxisSizingMode: "AUTO",
+        counterAxisSizingMode: "FIXED",
+        primaryAxisAlignItems: "CENTER",
+        counterAxisAlignItems: "CENTER",
+        paddingTop: 32,
+        paddingBottom: 24,
+        paddingLeft: 24,
+        paddingRight: 24,
+        itemSpacing: 0,
+        fills: [],
+        nodes: [
+          { type: "instance", use: "PorscheCNV3/Wordmark", name: "Logo", width: 120, height: 24 }
+        ]
+      },
+
+      // 3. 登录插图
+      { type: "instance", use: "PorscheCNV3/illustration_BP/login", name: "登录插图", width: W, height: 160 },
+
+      // 4. 登录表单区域
+      {
+        type: "frame",
+        name: "登录表单",
+        width: W,
+        layoutMode: "VERTICAL",
+        primaryAxisSizingMode: "AUTO",
         counterAxisSizingMode: "FIXED",
         primaryAxisAlignItems: "MIN",
-        counterAxisAlignItems: "CENTER",
-        padding: 28,
+        counterAxisAlignItems: "MIN",
+        paddingTop: 24,
+        paddingBottom: 16,
+        paddingLeft: 24,
+        paddingRight: 24,
         itemSpacing: 14,
-        cornerRadius: 20,
         fills: [{ type: "SOLID", color: "#FFFFFF", opacity: 1 }],
-        stroke: { color: "#D1D5DB", weight: 1 },
         nodes: [
           {
             type: "text",
-            name: "Eyebrow",
-            characters: "AI Portal",
-            fontFamily: "Roboto",
-            fontStyle: "Medium",
-            fontSize: 12,
-            letterSpacing: 0.4,
-            fills: [{ type: "SOLID", color: "#0F766E", opacity: 1 }]
-          },
-          {
-            type: "text",
-            name: "Title",
-            characters: "Sign in to your workspace",
+            name: "标题",
+            characters: "欢迎登录",
             fontFamily: "Roboto",
             fontStyle: "Bold",
-            fontSize: 28,
-            lineHeight: 34,
-            fills: [{ type: "SOLID", color: "#111827", opacity: 1 }],
-            maxWidth: 360
+            fontSize: 24,
+            fills: [{ type: "SOLID", color: "#0A0A0A", opacity: 1 }],
+            maxWidth: 327
           },
           {
             type: "text",
-            name: "Desc",
-            characters: "Use your corporate email to continue.",
+            name: "副标题",
+            characters: "请输入您的账号和密码",
             fontFamily: "Roboto",
             fontStyle: "Regular",
             fontSize: 14,
-            fills: [{ type: "SOLID", color: "#6B7280", opacity: 1 }],
-            maxWidth: 360
+            fills: [{ type: "SOLID", color: "#6B6B6B", opacity: 1 }],
+            maxWidth: 327
           },
           {
-            type: "input",
-            name: "Email",
-            label: "Email",
-            placeholder: "name@company.com",
-            width: 360
+            type: "instance",
+            use: "PorscheCNV3/Input",
+            name: "手机号输入框",
+            width: 327,
+            height: 56,
+            overrides: { Label: "账号", label: "账号", Placeholder: "手机号 / 邮箱", placeholder: "手机号 / 邮箱" }
           },
           {
-            type: "input",
-            name: "Password",
-            label: "Password",
-            placeholder: "********",
-            width: 360
+            type: "instance",
+            use: "PorscheCNV3/Input",
+            name: "密码输入框",
+            width: 327,
+            height: 56,
+            overrides: { Label: "密码", label: "密码", Placeholder: "请输入密码", placeholder: "请输入密码" }
           },
           {
-            type: "button",
-            name: "SignIn",
-            label: "Sign in",
-            width: 360,
-            height: 44,
-            fills: [{ type: "SOLID", color: "#0F172A", opacity: 1 }]
+            type: "frame",
+            name: "选项行",
+            width: 327,
+            layoutMode: "HORIZONTAL",
+            primaryAxisSizingMode: "FIXED",
+            counterAxisSizingMode: "AUTO",
+            primaryAxisAlignItems: "SPACE_BETWEEN",
+            counterAxisAlignItems: "CENTER",
+            itemSpacing: 0,
+            fills: [],
+            nodes: [
+              {
+                type: "instance",
+                use: "PorscheCNV3/Checkbox",
+                name: "记住我",
+                overrides: { Label: "记住我", label: "记住我" }
+              },
+              {
+                type: "text",
+                name: "忘记密码",
+                characters: "忘记密码?",
+                fontFamily: "Roboto",
+                fontStyle: "Regular",
+                fontSize: 13,
+                fills: [{ type: "SOLID", color: "#C8102E", opacity: 1 }]
+              }
+            ]
           },
           {
-            type: "button",
-            name: "Google",
-            label: "Continue with Google",
-            width: 360,
-            height: 44,
-            fills: [{ type: "SOLID", color: "#FFFFFF", opacity: 1 }],
-            textFills: [{ type: "SOLID", color: "#111827", opacity: 1 }],
-            stroke: { color: "#D1D5DB", weight: 1 }
+            type: "instance",
+            use: "PorscheCNV3/Button",
+            name: "登录按钮",
+            width: 327,
+            height: 48,
+            overrides: { Label: "登录", label: "登录" }
+          },
+          {
+            type: "frame",
+            name: "分割线行",
+            width: 327,
+            layoutMode: "HORIZONTAL",
+            primaryAxisSizingMode: "FIXED",
+            counterAxisSizingMode: "AUTO",
+            primaryAxisAlignItems: "CENTER",
+            counterAxisAlignItems: "CENTER",
+            itemSpacing: 12,
+            fills: [],
+            nodes: [
+              { type: "rectangle", name: "左线", width: 135, height: 1, fills: [{ type: "SOLID", color: "#E5E5E5", opacity: 1 }] },
+              { type: "text", name: "或", characters: "或", fontFamily: "Roboto", fontStyle: "Regular", fontSize: 13, fills: [{ type: "SOLID", color: "#6B6B6B", opacity: 1 }] },
+              { type: "rectangle", name: "右线", width: 135, height: 1, fills: [{ type: "SOLID", color: "#E5E5E5", opacity: 1 }] }
+            ]
+          },
+          {
+            type: "instance",
+            use: "PorscheCNV3/Button pure",
+            name: "注册按钮",
+            width: 327,
+            height: 48,
+            overrides: { Label: "立即注册", label: "立即注册" }
           }
         ]
-      }
+      },
+
+      // 5. 底部留白
+      { type: "rectangle", name: "底部留白", width: W, height: 74, fills: [{ type: "SOLID", color: "#FFFFFF", opacity: 1 }] },
+
+      // 6. Home Indicator
+      { type: "instance", use: "PorscheCNV3/Home Indicator", name: "Home Indicator", width: W, height: 34 }
     ]
   };
 }
