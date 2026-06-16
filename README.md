@@ -50,13 +50,22 @@ figma-plugin-yc-20260616/manifest.json
 
 设计师不需要自己写 JSON，也不需要复制粘贴代码。推荐让 AI Agent 直接生成页面 JSON，并发送给插件渲染。
 
+这里的 AI Agent 指的是**能连接本地项目或插件工作流的 Agent 环境**，例如：
+
+- VS Code 里的 GitHub Copilot / Agent
+- Cursor 里的 Agent
+- 团队内部配置好的自动化 Agent
+- 其他可以读取项目文件、生成 JSON，并把 JSON 发送给 Figma 插件的工具
+
+普通的 GPT 网页聊天通常**不能直接连接 Figma 插件**。如果只是在网页里和 GPT 对话，它可以帮你写页面需求或生成 JSON 草稿，但不能自动把 JSON 发送到 Figma 插件里完成渲染。
+
 ### 连接前准备
 
 1. 打开需要生成页面的 Figma 文件。
 2. 确认相关组件库已启用，例如 `[V3 DS - App] CN Components`。
 3. 运行插件 **PDCN UX Helper**。
 4. 停留在 **设计稿生成** tab。
-5. 打开团队配置好的 AI Agent 对话窗口。
+5. 打开可以连接本地项目或插件工作流的 AI Agent，例如 VS Code Agent、Cursor Agent，或团队配置好的 Agent。
 
 只要 Figma 文件和插件保持打开，AI Agent 就可以把页面 JSON 发送给插件，由插件在当前 Figma 文件中生成设计稿。
 
@@ -96,9 +105,11 @@ AI Agent 会重新生成或调整 JSON，再发送给插件渲染新的画板。
 
 ### 如果没有 VS Code
 
-没有 VS Code 也可以使用插件本身。设计师只需要安装并打开 Figma 插件；AI Agent 的连接环境由团队统一配置。日常使用时，设计师只需要在 AI Agent 对话里描述页面需求，并在 Figma 中查看生成结果。
+没有 VS Code 也可以使用插件本身，例如导入插件、打开插件、点击 **渲染画布**、提取组件 key。
 
-## 使用方式 2：提取组件 key
+但如果要让 AI Agent 自动把 JSON 传给插件，需要使用 Cursor、VS Code 或团队配置好的其他 Agent 环境。单独打开 GPT 网页聊天，一般不能直接控制这个 Figma 插件。
+
+## 使用方式 2：提取组件库 key
 
 ### 读取选中组件 key
 
@@ -134,28 +145,3 @@ AI Agent 会重新生成或调整 JSON，再发送给插件渲染新的画板。
 
 通常是组件 key 不是已发布组件库的 key，或者当前文件没有启用对应组件库。可以用 **组件提取** tab 重新读取正确 key。
 
-## AI Agent / 维护者使用
-
-推荐流程是让 AI Agent 直接根据设计需求生成 JSON，并发送给插件渲染。维护者主要负责三件事：
-
-- 维护组件 key，例如更新 `keys/PorscheCNV3.json`
-- 维护页面 JSON 的结构规则
-- 在需要固定模板时，把常用页面预设保存到脚本里
-
-如果需要更新插件内置的默认页面，可以在项目目录运行：
-
-```bash
-npm run draw:usedcar
-```
-
-常用命令：
-
-```bash
-npm run draw:usedcar   # 生成保时捷易手车详情页
-npm run draw:library   # 生成组件库测试页面
-npm run draw:login     # 生成登录页测试页面
-```
-
-运行后，页面 JSON 会自动嵌入插件代码。重新上传 GitHub 后，团队成员下载最新版即可使用。
-
-对于日常页面生成，更建议通过 AI Agent 直接生成并传入 JSON，这样设计师不需要等待维护者每次重新发布插件。
