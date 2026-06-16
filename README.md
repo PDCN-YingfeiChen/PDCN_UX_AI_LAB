@@ -42,7 +42,8 @@ figma-plugin-yc-20260616/manifest.json
 2. 确认相关组件库已启用，例如 `[V3 DS - App] CN Components`。
 3. 打开插件 **PDCN UX Helper**。
 4. 进入 **设计稿生成** tab。
-5. 点击 **渲染画布**。
+5. 与 **AI Agent** 描述画图需求
+6. 点击 **渲染画布**。
 
 插件会把 AI Agent 传入或当前已准备好的页面 JSON 渲染成 Figma 画布。
 
@@ -56,7 +57,7 @@ figma-plugin-yc-20260616/manifest.json
 - 团队内部配置好的自动化 Agent
 - 其他可以读取项目文件、生成 JSON，并把 JSON 发送给 Figma 插件的工具
 
-普通的 GPT/豆包/Deepseek 网页聊天通常**不能直接连接 Figma 插件**。如果只是在网页里和 AI 对话，它可以帮你写页面需求或生成 JSON 草稿，但不能自动把 JSON 发送到 Figma 插件里完成渲染。
+普通的 GPT / 豆包 / Deepseek 网页聊天通常**不能直接连接 Figma 插件**。如果只是在网页里和 AI 对话，它可以帮你写页面需求或生成 JSON 草稿，但不能自动把 JSON 发送到 Figma 插件里完成渲染。
 
 ### 连接前准备
 
