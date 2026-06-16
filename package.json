@@ -1,0 +1,16 @@
+{
+  "name": "vscode-figma-draw-bridge",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Generate layout JSON in VS Code and render it in a Figma development plugin.",
+  "type": "module",
+  "scripts": {
+    "draw": "node scripts/generate-layout.mjs --preset login",
+    "draw:library": "node scripts/generate-layout.mjs --preset library-demo",
+    "draw:usedcar": "node scripts/generate-layout.mjs --preset used-car-detail",
+    "generate": "node scripts/generate-layout.mjs",
+    "draw:login": "node scripts/generate-layout.mjs --preset login",
+    "build:plugin": "node scripts/generate-layout.mjs --preset login",
+    "validate": "node --check scripts/generate-layout.mjs"
+  }
+}

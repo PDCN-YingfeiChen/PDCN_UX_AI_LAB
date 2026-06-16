@@ -1,0 +1,8 @@
+{
+  "name": "PDCN UX Helper",
+  "id": "1462026061600010000",
+  "api": "1.0.0",
+  "main": "code.js",
+  "editorType": ["figma"],
+  "ui": "ui.html"
+}

@@ -1,0 +1,259 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>VSCode Draw Bridge</title>
+    <style>
+      :root {
+        --bg: #f8fafc;
+        --card: #ffffff;
+        --text: #0f172a;
+        --muted: #475569;
+        --accent: #111827;
+        --accent-hover: #000000;
+        --border: #cbd5e1;
+        --surface: #e2e8f0;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 16px;
+        font-family: "SF Pro Text", "Segoe UI", sans-serif;
+        color: var(--text);
+        background: var(--bg);
+      }
+
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 12px;
+      }
+
+      .tabs {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4px;
+        padding: 4px;
+        margin-bottom: 12px;
+        border-radius: 8px;
+        background: var(--surface);
+      }
+
+      .tab {
+        border-radius: 6px;
+        background: transparent;
+        color: var(--muted);
+      }
+
+      .tab.active {
+        background: var(--card);
+        color: var(--text);
+        box-shadow: 0 1px 3px rgba(15, 23, 42, 0.12);
+      }
+
+      .panel {
+        display: none;
+      }
+
+      .panel.active {
+        display: block;
+      }
+
+      h2 {
+        margin: 0 0 8px;
+        font-size: 14px;
+      }
+
+      p {
+        margin: 0 0 12px;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.4;
+      }
+
+      textarea {
+        width: 100%;
+        min-height: 280px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        padding: 10px;
+        font-family: ui-monospace, Menlo, monospace;
+        font-size: 11px;
+        line-height: 1.4;
+        resize: vertical;
+      }
+
+      .actions {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 8px;
+        margin-top: 10px;
+      }
+
+      button {
+        border: none;
+        border-radius: 8px;
+        padding: 9px 10px;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .primary {
+        background: var(--accent);
+        color: white;
+      }
+
+      .primary:hover {
+        background: var(--accent-hover);
+      }
+
+      .secondary {
+        background: #e2e8f0;
+        color: #0f172a;
+      }
+
+      .status {
+        margin-top: 10px;
+        font-size: 11px;
+        color: var(--muted);
+      }
+
+      .feature-list {
+        margin: 0 0 12px;
+        padding-left: 16px;
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="tabs" role="tablist" aria-label="Plugin sections">
+      <button id="tabDesign" class="tab active" type="button" role="tab" aria-selected="true">设计稿生成</button>
+      <button id="tabKeys" class="tab" type="button" role="tab" aria-selected="false">组件提取</button>
+    </div>
+
+    <section id="panelDesign" class="card panel active" role="tabpanel" aria-labelledby="tabDesign">
+      <h2>设计稿生成</h2>
+      <p>点击按钮后，插件会读取 VS Code 已嵌入的 JSON，并在当前 Figma 文件生成对应设计稿。</p>
+      <ul class="feature-list">
+        <li>JSON 由 VS Code 脚本生成并自动写入插件</li>
+        <li>支持文本、画板、基础图形和组件库实例</li>
+        <li>适合把页面结构快速转成可编辑 Figma 画布</li>
+      </ul>
+      <button id="renderEmbedded" class="primary" style="width:100%;">渲染画布</button>
+      <div class="status" id="embeddedInfo">正在读取嵌入设计稿...</div>
+      <div class="status" id="status">Idle</div>
+    </section>
+
+    <section id="panelKeys" class="card panel" role="tabpanel" aria-labelledby="tabKeys">
+      <h2>组件提取</h2>
+      <p>选中组件或实例后读取 key；也可以扫描当前文件中的全部组件，结果会显示在下方。</p>
+      <div class="actions">
+        <button id="readKeys" class="secondary" type="button">读取选中组件 key</button>
+        <button id="scanAll" class="primary" type="button">扫描当前文件全部组件</button>
+      </div>
+      <textarea id="keysOut" readonly placeholder="组件 key 会显示在这里。"></textarea>
+      <div class="status" id="keysStatus">Idle</div>
+    </section>
+
+    <script>
+      const statusEl = document.getElementById("status");
+      const keysStatusEl = document.getElementById("keysStatus");
+      const renderEmbeddedBtn = document.getElementById("renderEmbedded");
+      const embeddedInfo = document.getElementById("embeddedInfo");
+      const tabDesign = document.getElementById("tabDesign");
+      const tabKeys = document.getElementById("tabKeys");
+      const panelDesign = document.getElementById("panelDesign");
+      const panelKeys = document.getElementById("panelKeys");
+
+      function activateTab(target) {
+        const isDesign = target === "design";
+        tabDesign.classList.toggle("active", isDesign);
+        tabKeys.classList.toggle("active", !isDesign);
+        tabDesign.setAttribute("aria-selected", String(isDesign));
+        tabKeys.setAttribute("aria-selected", String(!isDesign));
+        panelDesign.classList.toggle("active", isDesign);
+        panelKeys.classList.toggle("active", !isDesign);
+      }
+
+      tabDesign.onclick = () => activateTab("design");
+      tabKeys.onclick = () => activateTab("keys");
+
+      // Ask the plugin whether an embedded layout exists (no auto-render).
+      parent.postMessage({ pluginMessage: { type: "ui-ready" } }, "*");
+
+      renderEmbeddedBtn.onclick = () => {
+        parent.postMessage({ pluginMessage: { type: "render-embedded" } }, "*");
+        statusEl.textContent = "Rendering embedded layout...";
+      };
+
+      const readKeysBtn = document.getElementById("readKeys");
+      const keysOut = document.getElementById("keysOut");
+      readKeysBtn.onclick = () => {
+        parent.postMessage({ pluginMessage: { type: "read-keys" } }, "*");
+        keysStatusEl.textContent = "Reading selection...";
+      };
+
+      const scanAllBtn = document.getElementById("scanAll");
+      scanAllBtn.onclick = () => {
+        parent.postMessage({ pluginMessage: { type: "scan-all-keys" } }, "*");
+        keysStatusEl.textContent = "Scanning all components...";
+      };
+
+      onmessage = (event) => {
+        const msg = event.data.pluginMessage;
+        if (!msg) {
+          return;
+        }
+
+        if (msg.type === "render-ok") {
+          statusEl.textContent = "Render complete";
+        }
+
+        if (msg.type === "render-error") {
+          statusEl.textContent = `Error: ${msg.message}`;
+        }
+
+        if (msg.type === "embedded-status") {
+          if (msg.hasPayload) {
+            embeddedInfo.textContent = msg.name
+              ? `Embedded layout ready: "${msg.name}". Click to render.`
+              : "Embedded layout ready. Click to render.";
+          } else {
+            embeddedInfo.textContent =
+              "No embedded layout. Run a preset in VS Code (npm run draw...).";
+          }
+        }
+
+        if (msg.type === "keys-result") {
+          keysStatusEl.textContent = msg.message || "";
+          keysOut.value = (msg.keys || [])
+            .map((k) => {
+              const node = {
+                type: "instance",
+                name: k.name,
+                key: k.key,
+              };
+              if (k.setKey && k.setKey !== k.key) {
+                node.setKey = k.setKey;
+              }
+              return JSON.stringify(node);
+            })
+            .join("\n");
+        }
+
+        if (msg.type === "scan-result") {
+          keysStatusEl.textContent = msg.message || "";
+          keysOut.value = JSON.stringify(msg.dictionary || {}, null, 2);
+        }
+      };
+    </script>
+  </body>
+</html>

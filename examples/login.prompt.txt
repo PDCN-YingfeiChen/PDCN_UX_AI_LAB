@@ -1,0 +1,4 @@
+Create a clean desktop login page in a centered card layout.
+Fields: email, password.
+Buttons: Sign in primary, Continue with Google secondary.
+Style: airy spacing, rounded corners, soft border.
