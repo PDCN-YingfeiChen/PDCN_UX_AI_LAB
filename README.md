@@ -7,7 +7,7 @@ PDCN UX Helper 是一个 Figma 插件，用于接收 AI Agent 生成的页面 JS
 ## 插件能做什么
 
 - 接收 AI Agent 生成的页面 JSON，并在 Figma 当前文件生成设计稿
-- 使用已启用的 Figma 组件库渲染页面组件
+- 使用已启用的 Figma 组件库（当前仅支持V3 DS CN component组件库）渲染页面组件
 - 读取选中组件或实例的 key
 - 扫描当前文件里的全部组件 key
 
@@ -42,7 +42,8 @@ figma-plugin-yc-20260616/manifest.json
 2. 确认相关组件库已启用，例如 `[V3 DS - App] CN Components`。
 3. 打开插件 **PDCN UX Helper**。
 4. 进入 **设计稿生成** tab。
-5. 点击 **渲染画布**。
+5. 与 **AI Agent** 描述画图需求
+6. 点击 **渲染画布**。
 
 插件会把 AI Agent 传入或当前已准备好的页面 JSON 渲染成 Figma 画布。
 
@@ -60,12 +61,11 @@ figma-plugin-yc-20260616/manifest.json
 
 这里的 AI Agent 指的是**能连接本地项目或插件工作流的 Agent 环境**，例如：
 
-- VS Code 里的 GitHub Copilot / Agent
-- Cursor 里的 Agent
+- VS Code / Cursor 等里的 GitHub Copilot / Claude /Codex
 - 团队内部配置好的自动化 Agent
 - 其他可以读取项目文件、生成 JSON，并把 JSON 发送给 Figma 插件的工具
 
-普通的 GPT 网页聊天通常**不能直接连接 Figma 插件**。如果只是在网页里和 GPT 对话，它可以帮你写页面需求或生成 JSON 草稿，但不能自动把 JSON 发送到 Figma 插件里完成渲染。
+普通的 GPT / 豆包 / Deepseek 网页聊天通常**不能直接连接 Figma 插件**。如果只是在网页里和 AI 对话，它可以帮你写页面需求或生成 JSON 草稿，但不能自动把 JSON 发送到 Figma 插件里完成渲染。
 
 ### 连接前准备
 
@@ -136,6 +136,11 @@ AI Agent 会重新生成或调整 JSON，再发送给插件渲染新的画板。
 但如果要让 AI Agent 自动把 JSON 传给插件，需要使用 Cursor、VS Code 或团队配置好的其他 Agent 环境。单独打开 GPT 网页聊天，一般不能直接控制这个 Figma 插件。
 
 ## 使用方式 2：提取组件库 key
+
+### 要求
+- 拥有该组件库的figma 编辑权限
+- 需要在组件库的源文件里打开插件提取
+- 后续使用时，设计文件需启用该组件库
 
 ### 读取选中组件 key
 
