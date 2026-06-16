@@ -21,35 +21,129 @@ figma-plugin-yc-20260616/manifest.json
 
 导入 Figma 插件时请选择这个 `manifest.json` 文件。
 
-## 没有 VS Code 怎么使用
+## 使用方式 1：VS Code 直接 Clone 仓库后生成设计稿
 
-不需要 VS Code 也可以使用插件。
+适合已经安装 VS Code，并且可以登录 GitHub Copilot 的设计师。
 
-1. 打开 GitHub 仓库页面。
-2. 点击绿色的 **Code** 按钮。
-3. 点击 **Download ZIP**。
-4. 解压下载的 ZIP 文件。
-5. 打开 Figma 桌面版。
-6. 进入 **Plugins -> Development -> Import plugin from manifest...**。
-7. 选择解压后文件夹里的 `figma-plugin-yc-20260616/manifest.json`。
-8. 在 Figma 里运行插件 **PDCN UX Helper**。
+### 第一步：用 VS Code 打开仓库
 
-导入一次后，之后可以直接从 Figma 的开发插件列表里打开。
+1. 打开 VS Code。
+2. 按 **Command + Shift + P**。
+3. 输入并选择 **Git: Clone**。
+4. 粘贴仓库地址：`https://github.com/PDCN-YingfeiChen/PDCN_UX_AI_LAB`。
+5. 选择一个本地文件夹保存。
+6. 克隆完成后，VS Code 会提示是否打开仓库，选择 **Open**。
 
-## 使用方式 1：生成设计稿
+### 第二步：安装 Figma 插件
 
-1. 打开需要生成页面的 Figma 文件。
-2. 确认相关组件库已启用，例如 `[V3 DS - App] CN Components`。
-3. 打开插件 **PDCN UX Helper**。
-4. 进入 **设计稿生成** tab。
-5. 与 **AI Agent** 描述画图需求
-6. 点击 **渲染画布**。
+1. 打开 Figma 桌面版。
+2. 进入 **Plugins -> Development -> Import plugin from manifest...**。
+3. 选择刚才 VS Code 下载下来的仓库文件夹。
+4. 找到并选择 `figma-plugin-yc-20260616/manifest.json`。
+5. 安装完成后，在 Figma 菜单里运行 **Plugins -> Development -> PDCN UX Helper**。
 
-插件会把 AI Agent 传入或当前已准备好的页面 JSON 渲染成 Figma 画布。
+### 第三步：让 Copilot Agent 生成页面
 
-## 推荐方式：连接 AI Agent 生成页面
+1. 回到 VS Code。
+2. 打开 Copilot Chat。
+3. 确认 Copilot Chat 使用的是 **Agent** 模式。
+4. 对 Copilot 发送下面这段话，并把方括号里的内容替换成你的页面需求：
 
-设计师不需要自己写 JSON，也不需要复制粘贴代码。推荐让 AI Agent 直接生成页面 JSON，并发送给插件渲染。
+```text
+请阅读本仓库的 AGENTS.md，并使用 PDCN UX Helper 生成一个 Figma 页面。
+
+我的设计需求是：
+[在这里写你的页面需求，例如：保时捷易手车详情页，移动端 375 宽，使用 PorscheCNV3 组件库，包含状态栏、顶部导航、车辆图片、车型名称、认证标签、价格、关键参数、车辆配置、经销商信息、质保 banner 和底部预约按钮。]
+
+请你：
+1. 先用简短问题确认页面信息；
+2. 生成完整页面 JSON；
+3. 保存到 generated/agent-layout.json；
+4. 运行 npm run agent:embed；
+5. 运行 node --check figma-plugin-yc-20260616/code.js；
+6. 完成后告诉我回到 Figma 插件点击「设计稿生成 -> 渲染画布」。
+不要让我手动写 JSON，也不要让我复制粘贴 JSON。
+```
+
+### 第四步：在 Figma 里渲染
+
+1. 回到 Figma。
+2. 打开插件 **Plugins -> Development -> PDCN UX Helper**。
+3. 进入 **设计稿生成**。
+4. 点击 **渲染画布**。
+
+页面会生成在当前 Figma 画布上。
+
+## 使用方式 2：下载 ZIP 后和 Copilot Agent 合作
+
+适合不熟悉 Git Clone，希望先从 GitHub 网页下载文件的设计师。
+
+### 第一步：下载仓库 ZIP
+
+1. 打开仓库链接：`https://github.com/PDCN-YingfeiChen/PDCN_UX_AI_LAB`。
+2. 点击绿色按钮 **Code**。
+3. 选择 **Download ZIP**。
+4. 下载完成后双击解压。
+5. 得到一个文件夹，名字通常类似 `PDCN_UX_AI_LAB-main`。
+
+### 第二步：用 VS Code 打开解压后的文件夹
+
+1. 打开 VS Code。
+2. 选择 **File -> Open Folder...**。
+3. 选择刚才解压出来的 `PDCN_UX_AI_LAB-main` 文件夹。
+4. 打开后，确认 VS Code 左侧能看到 `AGENTS.md`、`README.md`、`figma-plugin-yc-20260616`、`generated`、`scripts`、`package.json`。
+
+### 第三步：安装 Figma 插件
+
+1. 打开 Figma 桌面版。
+2. 进入 **Plugins -> Development -> Import plugin from manifest...**。
+3. 选择解压后的仓库文件夹。
+4. 找到并选择 `figma-plugin-yc-20260616/manifest.json`。
+5. 安装完成后，在 Figma 菜单里运行 **Plugins -> Development -> PDCN UX Helper**。
+
+### 第四步：让 Copilot Agent 生成页面
+
+1. 回到 VS Code。
+2. 打开 Copilot Chat。
+3. 确认 Copilot Chat 使用的是 **Agent** 模式。
+4. 对 Copilot 发送下面这段话，并把方括号里的内容替换成你的页面需求：
+
+```text
+请阅读本仓库的 AGENTS.md，并使用 PDCN UX Helper 生成一个 Figma 页面。
+
+我的设计需求是：
+[在这里写你的页面需求，例如：保时捷易手车详情页，移动端 375 宽，使用 PorscheCNV3 组件库，包含状态栏、顶部导航、车辆图片、车型名称、认证标签、价格、关键参数、车辆配置、经销商信息、质保 banner 和底部预约按钮。]
+
+请你：
+1. 先用简短问题确认页面信息；
+2. 生成完整页面 JSON；
+3. 保存到 generated/agent-layout.json；
+4. 运行 npm run agent:embed；
+5. 运行 node --check figma-plugin-yc-20260616/code.js；
+6. 完成后告诉我回到 Figma 插件点击「设计稿生成 -> 渲染画布」。
+不要让我手动写 JSON，也不要让我复制粘贴 JSON。
+```
+
+### 第五步：在 Figma 里渲染
+
+1. 回到 Figma。
+2. 打开插件 **Plugins -> Development -> PDCN UX Helper**。
+3. 进入 **设计稿生成**。
+4. 点击 **渲染画布**。
+
+页面会生成在当前 Figma 画布上。
+
+## 后续修改页面
+
+如果想改页面，不需要重新安装插件。直接回到 VS Code 的 Copilot Chat，说：
+
+```text
+请把刚才的页面改成：[写你的修改需求]。修改完成后重新嵌入插件。
+```
+
+Copilot 完成后，再回到 Figma 插件点击 **设计稿生成 -> 渲染画布**。
+
+## AI Agent 使用说明
 
 本仓库已经内置 Agent 工作流说明：
 
@@ -57,26 +151,9 @@ figma-plugin-yc-20260616/manifest.json
 - `.github/copilot-instructions.md`：VS Code / GitHub Copilot 使用
 - `.cursor/rules/pdcn-ux-helper.mdc`：Cursor Agent 使用
 
-团队设计师把这个 GitHub 仓库交给 VS Code Agent、Cursor Agent 或团队内部 Agent 后，Agent 会默认知道应该先引导设计师说出页面需求，再生成 JSON，并把 JSON 嵌入 PDCN UX Helper 插件。
+设计师不需要自己写 JSON，也不需要复制粘贴代码。Copilot Agent 会先引导设计师说出页面需求，再生成 JSON，并把 JSON 嵌入 PDCN UX Helper 插件。
 
-这里的 AI Agent 指的是**能连接本地项目或插件工作流的 Agent 环境**，例如：
-
-- VS Code / Cursor 等里的 GitHub Copilot / Claude /Codex
-- 团队内部配置好的自动化 Agent
-- 其他可以读取项目文件、生成 JSON，并把 JSON 发送给 Figma 插件的工具
-
-普通的 GPT / 豆包 / Deepseek 网页聊天通常**不能直接连接 Figma 插件**。如果只是在网页里和 AI 对话，它可以帮你写页面需求或生成 JSON 草稿，但不能自动把 JSON 发送到 Figma 插件里完成渲染。
-
-### 连接前准备
-
-1. 打开需要生成页面的 Figma 文件。
-2. 确认相关组件库已启用，例如 `[V3 DS - App] CN Components`。
-3. 运行插件 **PDCN UX Helper**。
-4. 停留在 **设计稿生成** tab。
-5. 打开可以连接本地项目或插件工作流的 AI Agent，例如 VS Code Agent、Cursor Agent，或团队配置好的 Agent。
-6. 让 Agent 读取本仓库：`https://github.com/PDCN-YingfeiChen/PDCN_UX_AI_LAB`。
-
-只要 Figma 文件和插件保持打开，AI Agent 就可以把页面 JSON 写入仓库并嵌入插件。设计师回到插件点击 **渲染画布**，即可在当前 Figma 文件中生成设计稿。
+这里的 AI Agent 指的是**能读取本地项目文件并运行项目命令的 Agent 环境**，例如 VS Code Copilot Agent、Cursor Agent 或团队内部配置好的自动化 Agent。普通 GPT / 豆包 / Deepseek / 网页 Copilot 聊天通常不能直接连接本地 Figma 插件。
 
 Agent 会使用这个命令把生成好的 JSON 嵌入插件：
 
@@ -86,7 +163,7 @@ npm run agent:embed
 
 设计师不需要运行这个命令；这是给 AI Agent 自动执行的。
 
-### 设计师怎么提需求
+## 设计师怎么提需求
 
 直接用自然语言描述页面即可。建议一次说明这几类信息：
 
@@ -120,7 +197,7 @@ npm run agent:embed
 
 AI Agent 会重新生成或调整 JSON，再发送给插件渲染新的画板。
 
-### 设计师最终只需要做什么
+## 设计师最终只需要做什么
 
 1. 和 AI Agent 沟通页面需求。
 2. 等 Agent 提示“已嵌入插件”。
@@ -129,13 +206,7 @@ AI Agent 会重新生成或调整 JSON，再发送给插件渲染新的画板。
 
 除此之外，不需要写 JSON、不需要复制粘贴、不需要运行命令。
 
-### 如果没有 VS Code
-
-没有 VS Code 也可以使用插件本身，例如导入插件、打开插件、点击 **渲染画布**、提取组件 key。
-
-但如果要让 AI Agent 自动把 JSON 传给插件，需要使用 Cursor、VS Code 或团队配置好的其他 Agent 环境。单独打开 GPT 网页聊天，一般不能直接控制这个 Figma 插件。
-
-## 使用方式 2：提取组件库 key
+## 使用方式 3：提取组件库 key
 
 ### 要求
 - 拥有该组件库的figma 编辑权限
