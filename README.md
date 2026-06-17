@@ -231,7 +231,7 @@ AI Agent 会重新生成或调整 JSON，再发送给插件渲染新的画板。
 
 ## 更新日志
 
-### 2026-06-17
+### 2026-06-17 @Yingfei Chen
 
 - 配置并验证 VS Code Figma MCP Server，可读取当前 Figma 文件、页面和选中画板信息。
 - 优化 AI Agent 生成设计稿流程，支持根据当前 Figma 页面参考生成新页面，并通过 PDCN UX Helper 渲染到画布。
@@ -243,7 +243,7 @@ AI Agent 会重新生成或调整 JSON，再发送给插件渲染新的画板。
 - 生成保时捷金融计算器移动端页面，包含金融 banner、方案 Tab、月供 chips、计算结果、费用明细和底部预约咨询 Toolbar。
 - 修复金融计算器页面中多个模块 Auto Layout 高度不自适应的问题，避免关键指标卡片和费用明细模块相互遮挡。
 
-### 2026-06-16
+### 2026-06-16 @Yingfei Chen
 
 - 初始化 PDCN UX Helper Figma 插件项目，包含插件 manifest、渲染代码、UI 页面、示例页面和基础脚本。
 - 建立 AI Agent 设计稿生成工作流：Agent 生成 JSON、保存到 `generated/agent-layout.json`、运行嵌入命令、设计师在 Figma 插件中点击渲染。
