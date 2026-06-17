@@ -92,6 +92,13 @@ function mergeInto(target, source, namespace) {
     if (typeof key !== "string") {
       continue;
     }
+
+    if (namespace === "PorscheIcons") {
+      target[`${namespace}/${name}`] = key;
+      target[`Icon/${name}`] = key;
+      continue;
+    }
+
     target[name] = key;
     if (namespace) {
       target[`${namespace}/${name}`] = key;

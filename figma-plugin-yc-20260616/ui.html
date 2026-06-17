@@ -150,6 +150,7 @@
       <button id="renderEmbedded" class="primary" style="width:100%;">渲染画布</button>
       <div class="status" id="embeddedInfo">正在读取嵌入设计稿...</div>
       <div class="status" id="status">Idle</div>
+      <textarea id="diagnosticsOut" readonly placeholder="渲染诊断会显示在这里。" style="display:none;min-height:120px;margin-top:10px;"></textarea>
     </section>
 
     <section id="panelKeys" class="card panel" role="tabpanel" aria-labelledby="tabKeys">
@@ -168,6 +169,7 @@
       const keysStatusEl = document.getElementById("keysStatus");
       const renderEmbeddedBtn = document.getElementById("renderEmbedded");
       const embeddedInfo = document.getElementById("embeddedInfo");
+      const diagnosticsOut = document.getElementById("diagnosticsOut");
       const tabDesign = document.getElementById("tabDesign");
       const tabKeys = document.getElementById("tabKeys");
       const panelDesign = document.getElementById("panelDesign");
@@ -215,10 +217,16 @@
 
         if (msg.type === "render-ok") {
           statusEl.textContent = "Render complete";
+          diagnosticsOut.value = msg.diagnostics
+            ? JSON.stringify(msg.diagnostics, null, 2)
+            : "No diagnostics.";
         }
 
         if (msg.type === "render-error") {
           statusEl.textContent = `Error: ${msg.message}`;
+          diagnosticsOut.value = msg.diagnostics
+            ? JSON.stringify(msg.diagnostics, null, 2)
+            : "";
         }
 
         if (msg.type === "embedded-status") {
