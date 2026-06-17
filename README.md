@@ -229,6 +229,29 @@ AI Agent 会重新生成或调整 JSON，再发送给插件渲染新的画板。
 4. 点击 **扫描当前文件全部组件**。
 5. 下方文本框会显示全部组件 key。
 
+## 更新日志
+
+### 2026-06-17
+
+- 配置并验证 VS Code Figma MCP Server，可读取当前 Figma 文件、页面和选中画板信息。
+- 优化 AI Agent 生成设计稿流程，支持根据当前 Figma 页面参考生成新页面，并通过 PDCN UX Helper 渲染到画布。
+- 增强插件渲染能力：支持中英文混排字体分段，中文使用 PingFang SC，英文、数字和价格使用 Porsche Next。
+- 修复 Figma 插件运行环境不支持可选链语法导致的 `Unexpected token .` 问题。
+- 增强组件库实例渲染：优先使用 PorscheCNV3 组件，支持文本覆盖、实例属性设置、组件本地优先匹配和失败兜底。
+- 新增 Porsche 图标库 key 注入能力，支持 `Icon/...` 命名空间调用组件库图标。
+- 优化 Toolbar 渲染：底部操作栏使用完整 `PorscheCNV3/Tool Bar` 组件实例，并支持自动选择带 action icon 的变体。
+- 生成保时捷金融计算器移动端页面，包含金融 banner、方案 Tab、月供 chips、计算结果、费用明细和底部预约咨询 Toolbar。
+- 修复金融计算器页面中多个模块 Auto Layout 高度不自适应的问题，避免关键指标卡片和费用明细模块相互遮挡。
+
+### 2026-06-16
+
+- 初始化 PDCN UX Helper Figma 插件项目，包含插件 manifest、渲染代码、UI 页面、示例页面和基础脚本。
+- 建立 AI Agent 设计稿生成工作流：Agent 生成 JSON、保存到 `generated/agent-layout.json`、运行嵌入命令、设计师在 Figma 插件中点击渲染。
+- 新增 `AGENTS.md`、GitHub Copilot instructions 和 Cursor rules，统一不同 Agent 环境的使用方式。
+- 编写 README，面向设计师说明 Clone 仓库、导入 Figma 插件、提交页面需求和渲染画布的完整流程。
+- 添加 PorscheCNV3 组件 key 配置，支持状态栏、Header、Tag、Divider、Text List、Crest、Tool Bar、Home Indicator 等组件调用。
+- 增加登录页示例和页面生成脚本，为后续页面模板和自动化生成打基础。
+
 ## 常见问题
 
 ### 插件里没有生成我想要的新页面怎么办？
