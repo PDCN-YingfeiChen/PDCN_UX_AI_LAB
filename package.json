@@ -2,17 +2,29 @@
   "name": "vscode-figma-draw-bridge",
   "version": "0.1.0",
   "private": true,
-  "description": "Generate layout JSON in VS Code and render it in a Figma development plugin.",
+  "description": "Generate layout JSON in VS Code and render it through a write-enabled Figma MCP.",
   "type": "module",
   "scripts": {
     "draw": "node scripts/generate-layout.mjs --preset login",
     "draw:library": "node scripts/generate-layout.mjs --preset library-demo",
     "draw:usedcar": "node scripts/generate-layout.mjs --preset used-car-detail",
-    "agent:embed": "node scripts/embed-layout.mjs --input generated/agent-layout.json",
-    "agent:embed:file": "node scripts/embed-layout.mjs --input",
+    "agent:render-script": "node scripts/build-mcp-render-script.mjs --input generated/agent-layout.json",
+    "agent:render-script:file": "node scripts/build-mcp-render-script.mjs --input",
+    "agent:screen-script": "node scripts/build-mcp-screen-script.mjs --input generated/agent-brief.json",
+    "agent:screen-script:file": "node scripts/build-mcp-screen-script.mjs --input",
+    "agent:embed": "node scripts/build-mcp-render-script.mjs --input generated/agent-layout.json",
+    "agent:embed:file": "node scripts/build-mcp-render-script.mjs --input",
     "generate": "node scripts/generate-layout.mjs",
     "draw:login": "node scripts/generate-layout.mjs --preset login",
     "build:plugin": "node scripts/generate-layout.mjs --preset login",
-    "validate": "node --check scripts/generate-layout.mjs"
+    "mcp:patch": "node scripts/patch-figma-ui-mcp.mjs",
+    "mcp:bridge:run": "node scripts/run-figma-bridge.mjs",
+    "mcp:figma:start": "node scripts/start-figma-mcp.mjs",
+    "mcp:figma:version": "node ./node_modules/figma-ui-mcp/server/cli.js --version",
+    "postinstall": "node scripts/patch-figma-ui-mcp.mjs",
+    "validate": "node --check scripts/generate-layout.mjs && node --check scripts/build-mcp-render-script.mjs && node --check scripts/build-mcp-screen-script.mjs && node --check scripts/patch-figma-ui-mcp.mjs && node --check scripts/figma-renderer-runtime.js && node --check scripts/pdcn-screen-templates.runtime.js && node --check scripts/run-figma-bridge.mjs && node --check scripts/start-figma-mcp.mjs && node --check figma-plugin-yc-20260616/code.js && node --check node_modules/figma-ui-mcp/plugin/code.js && node --check node_modules/figma-ui-mcp/server/code-executor.js"
+  },
+  "devDependencies": {
+    "figma-ui-mcp": "2.5.26"
   }
 }

@@ -1,22 +1,27 @@
 ---
-description: PDCN UX Helper workflow for generating Figma designs through an AI Agent
+description: PDCN MCP workflow for generating Figma designs through an AI Agent
 alwaysApply: true
 ---
 
 # PDCN UX Helper Cursor Rule
 
-This repository contains the PDCN UX Helper Figma plugin.
+This repository contains the PDCN Figma design generation workflow. Drawing is done through the write-enabled `figma-ui-mcp` server configured as `figma-write`; the local install is patched by `scripts/patch-figma-ui-mcp.mjs` with `renderPdcnScreen` and `renderPdcnLayout` so Porsche CN component keys can be imported in Figma. The PDCN UX Helper Figma plugin is only for component key extraction.
 
 When a designer asks Cursor Agent to create or modify a design, follow the workflow in `AGENTS.md`.
 
 Required flow:
 
 1. Ask concise questions to clarify page type, device size, modules, component library, and CTA.
-2. Generate page JSON for the plugin.
-3. Write it to `generated/agent-layout.json`.
-4. Run `npm run agent:embed`.
-5. Run `node --check figma-plugin-yc-20260616/code.js`.
-6. Tell the designer to open **PDCN UX Helper** in Figma and click **设计稿生成 -> 渲染画布**.
+2. Prefer a low-token screen brief when a template exists; otherwise generate page JSON for the MCP renderer.
+3. Write briefs to `generated/agent-brief.json`; write full layouts to `generated/agent-layout.json`.
+4. Run `npm run agent:screen-script` for briefs; run `npm run agent:render-script` for full layouts.
+5. Run `npm run validate`.
+6. Call `figma_status` to confirm the Figma bridge is connected.
+7. Execute `generated/figma-mcp-render.js` through `figma_write`.
+8. Tell the designer the design has been generated in Figma.
 
 Do not ask designers to copy/paste JSON or run terminal commands.
+Do not ask designers to open the plugin to render the canvas.
+If `figma_status` reports that the bridge plugin is not connected, try `npm run mcp:bridge:run`; if it fails, stop after generating `generated/figma-mcp-render.js` and explain that **Figma UI MCP Bridge** must be running once in Figma Desktop.
+If `figma_write` reports `figma.renderPdcnScreen is not a function` or `figma.renderPdcnLayout is not a function`, run `npm run mcp:patch`, restart the MCP server, and rerun **Figma UI MCP Bridge** in Figma Desktop.
 Do not push to GitHub unless explicitly requested.
